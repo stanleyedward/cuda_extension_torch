@@ -3,7 +3,7 @@ from setuptools import setup
 from torch.utils.cpp_extension import CppExtension, BuildExtension
 
 setup(
-    name='interpolation', # package name
+    name='interpolation', 
     version='1.0',
     author='stanleyedward',
     author_email='114278820+stanleyedward@users.noreply.github.com',
@@ -19,4 +19,5 @@ setup(
     ],
     cmdclass={
         'build_ext': BuildExtension
-    })
+    }
+)
