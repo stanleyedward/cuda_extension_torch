@@ -1,5 +1,4 @@
-/** */
-
+/* Bridge between pytorch and CUDA */
 #include <torch/extension.h>
 
 // features: tensor of 8 vertices of the cube

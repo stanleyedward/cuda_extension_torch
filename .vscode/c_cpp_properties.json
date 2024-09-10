@@ -4,12 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/home/stanley/miniconda3/envs/cppcuda/include/python3.8",
-                "/home/stanley/miniconda3/envs/cppcuda/lib/python3.8/site-packages/torch/include",
-                "/home/stanley/miniconda3/envs/cppcuda/lib/python3.8/site-packages/torch/include/torch/csrc/api/include"
-
-
-
+                "/home/stanley/miniconda3/envs/cud/include/python3.8",
+                "/home/stanley/miniconda3/envs/cud/lib/python3.8/site-packages/torch/include",
+                "/home/stanley/miniconda3/envs/cud/lib/python3.8/site-packages/torch/include/torch/csrc/api/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
