@@ -1,6 +1,6 @@
 #include <torch/extension.h>
 
-template <typename scalar_t>
+template <typename scalar_t> // scalar_t is a placeholder dtype so we dont have to explicitly define the dtype
 __global__ void trilinear_forward_kernel(
             const torch::PackedTensorAccessor<scalar_t, 3, torch::RestrictPtrTraits, size_t> features,
             const torch::PackedTensorAccessor<scalar_t, 2, torch::RestrictPtrTraits, size_t> points,
@@ -8,9 +8,10 @@ __global__ void trilinear_forward_kernel(
 ){
 
 }
+
 torch::Tensor trilinear_forward_cu(
     torch::Tensor features,
-    torch::Tensor points
+    torch::Tensor points        
 ){  
     const int N = features.size(0), F = features.size(2); //  num of cubes and dimension of features in each vertex
 
@@ -24,7 +25,10 @@ torch::Tensor trilinear_forward_cu(
     AT_DISPATCH_FLOATING_TYPES(features.type(), "trilinear_forward_cu()", 
     ([&] {
         trilinear_forward_kernel<scalar_t><<<numBlocks, numThreadsPerBlock>>>(
-            features.packed_accessor<scalar_t, 3, torch::RestrictPtrTraits, size_t>(),
+            // packed accessor is type conversion for tensors so cuda can manipulate them (not needed by primitive cpp dtypes)
+            // restrictPtrTraits: to prevent memory overlay of tensors
+            // size_t:  how many steps to take btw each element 
+            features.packed_accessor<scalar_t, 3, torch::RestrictPtrTraits, size_t>(),         
             points.packed_accessor<scalar_t, 2, torch::RestrictPtrTraits, size_t>(),
             featInterpOutput.packed_accessor<scalar_t, 2, torch::RestrictPtrTraits, size_t>()
         );
