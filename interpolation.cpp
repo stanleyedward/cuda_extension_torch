@@ -1,6 +1,7 @@
 /* Bridge between pytorch and CUDA */
 #include <torch/extension.h>
 #include "utils.h"
+
 // features: tensor of 8 vertices of the cube
 // points: point inside the cube to interpolate to
 torch::Tensor trilinear_interpolation(

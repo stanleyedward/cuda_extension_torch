@@ -3,6 +3,25 @@
 torch::Tensor trilinear_forward_cu(
     torch::Tensor features,
     torch::Tensor points
-){
-    return features;
+){  
+    const int N = features.size(0), F = features.size(2); //  num of cubes and dimension of features in each vertex
+
+    // feat_interp_output = torch.zeros(N, F, dtype=torch.float32, device='cuda:0')
+    // torch::zeros({N,F}, torch::dtype(torch::kInt32).device(features.device())); // change tensors dtype and device
+    torch::Tensor featInterpOutput = torch::empty({N, F}, features.options()); // options sets dtype and device same as features
+    const dim3 numThreadsPerBlock(16, 16, 1); //256 threads in each dim
+    const dim3 numBlocks((N + numThreadsPerBlock.x - 1) / numThreadsPerBlock.x, (F + numThreadsPerBlock.y - 1) / numThreadsPerBlock.y);
+
+    // instantiate kernel
+    AT_DISPATCH_FLOATING_TYPES(features.type(), "trilinear_forward_cu()", 
+    ([&] {
+        trilinear_forward_kernel<scalar_t><<<numBlocks, numThreadsPerBlock>>>(
+            features.packed_accessor<scalar_t, 3, torch::RestrictPtrTraits, size_t>(),
+            points.packed_accessor<scalar_t, 2, torch::RestrictPtrTraits, size_t>(),
+            featInterpOutput.packed_accessor<scalar_t, 2, torch::RestrictPtrTraits, size_t>()
+        );
+    })
+    );
+
+    return featInterpOutput;
 }
