@@ -1,5 +1,13 @@
 #include <torch/extension.h>
 
+template <typename scalar_t>
+__global__ void trilinear_forward_kernel(
+            const torch::PackedTensorAccessor<scalar_t, 3, torch::RestrictPtrTraits, size_t> features,
+            const torch::PackedTensorAccessor<scalar_t, 2, torch::RestrictPtrTraits, size_t> points,
+            torch::PackedTensorAccessor<scalar_t, 2, torch::RestrictPtrTraits, size_t> output
+){
+
+}
 torch::Tensor trilinear_forward_cu(
     torch::Tensor features,
     torch::Tensor points
@@ -20,7 +28,7 @@ torch::Tensor trilinear_forward_cu(
             points.packed_accessor<scalar_t, 2, torch::RestrictPtrTraits, size_t>(),
             featInterpOutput.packed_accessor<scalar_t, 2, torch::RestrictPtrTraits, size_t>()
         );
-    })
+    })  
     );
 
     return featInterpOutput;
