@@ -6,7 +6,31 @@ __global__ void trilinear_forward_kernel(
             const torch::PackedTensorAccessor<scalar_t, 2, torch::RestrictPtrTraits, size_t> points,
             torch::PackedTensorAccessor<scalar_t, 2, torch::RestrictPtrTraits, size_t> output
 ){
+    const int n = blockDim.x * blockIdx.x + threadIdx.x;
+    const int f = blockDim.y * blockIdx.y + threadIdx.y;
 
+    if (n < features.size(0) && f < features.size(2)){
+        //since the range for points is [-1, 1] we div by 2 to normalize
+        const scalar_t u = (points[f][0] + 1)/2;
+        const scalar_t v = (points[f][1] + 1)/2;
+        const scalar_t w = (points[f][1] + 1)/2;
+
+        //interpolation coef
+        const scalar_t a = (1-v)*(1-w);
+        const scalar_t b = (1-v)*w;
+        const scalar_t c = v*(1-w);
+        const scalar_t d = 1-a-b-c;
+
+        output[n][f] = (1-u)*(a*features[n][0][f] +
+                        b*features[n][1][f] +
+                        c*features[n][2][f] + 
+                        d*features[n][3][f]) +
+                        u*(a*features[n][4][f]+
+                        b*features[n][5][f]+
+                        c*features[n][6][f]+
+                        d*features[n][7][f]);
+
+    }
 }
 
 torch::Tensor trilinear_forward_cu(
