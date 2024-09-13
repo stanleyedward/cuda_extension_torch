@@ -11,9 +11,9 @@ __global__ void trilinear_forward_kernel(
 
     if (n < features.size(0) && f < features.size(2)){
         //since the range for points is [-1, 1] we div by 2 to normalize
-        const scalar_t u = (points[f][0] + 1)/2;
-        const scalar_t v = (points[f][1] + 1)/2;
-        const scalar_t w = (points[f][1] + 1)/2;
+        const scalar_t u = (points[n][0] + 1)/2;
+        const scalar_t v = (points[n][1] + 1)/2;
+        const scalar_t w = (points[n][2] + 1)/2;    
 
         //interpolation coef
         const scalar_t a = (1-v)*(1-w);
@@ -29,9 +29,9 @@ __global__ void trilinear_forward_kernel(
                         b*features[n][5][f]+
                         c*features[n][6][f]+
                         d*features[n][7][f]);
-
     }
 }
+
 
 torch::Tensor trilinear_forward_cu(
     torch::Tensor features,
