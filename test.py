@@ -7,18 +7,10 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 N = 65536
 F = 256
 
-features = torch.randn(N, 8, F, device=device)
+features = torch.randn(N, 8, F, device=device).requires_grad_()
 points = torch.randn(N, 3, device=device) * 2 - 1  
 
 def trilinear_interpolation_py(feats, points):
-    """
-    Inputs:
-        feats: (N, 8, F)
-        points: (N, 3) local coordinates in [-1, 1]
-    
-    Outputs:
-        feats_interp: (N, F)
-    """
     u = (points[:, 0:1]+1)/2
     v = (points[:, 1:2]+1)/2
     w = (points[:, 2:3]+1)/2
@@ -45,12 +37,14 @@ if __name__ == "__main__":
         output_cuda = interpolation.trilinear_interpolation(features, points)
         print(f"cuda time: {time.time() - t}")
         torch.cuda.synchronize()
+        print(f"Is cuda trainable?: {output_cuda.requires_grad}")
         print(f"cuda shape; {output_cuda.shape}")
         
         t2 = time.time()
         output_py = trilinear_interpolation_py(features, points)
         print(f"pytorch time: {time.time() - t2}")
         torch.cuda.synchronize()
-        print(torch.allclose(output_cuda, output_py, rtol=1e-6, atol=1e-5)) #check if theyre the same
+        print(f"Is pytorch trainable?: {output_py.requires_grad}")
+        print(torch.allclose(output_cuda, output_py, rtol=1e-6, atol=1e-5))
     except AssertionError as ae:
         print(f"Error occured: {ae}")

@@ -8,3 +8,9 @@ torch::Tensor trilinear_forward_cu(
     torch::Tensor features,
     torch::Tensor points
 );
+
+torch::Tensor trilinear_backward_cu(
+    torch::Tensor dl_dInterpOutput,
+    torch::Tensor features,
+    torch::Tensor points
+);
