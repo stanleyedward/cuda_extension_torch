@@ -11,3 +11,6 @@ symlink gxx
 ln -s /home/stanley/miniconda3/envs/torch112cu113/bin/gcc gcc
 ln -s /home/stanley/miniconda3/envs/torch112cu113/bin/g++ g++
 ```
+
+#### TODO
+- [ ] try with torch 2.4 and cu12
