@@ -4,14 +4,12 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/home/stanley/miniconda3/envs/torch112cu113/include/python3.8",
-                "/home/stanley/miniconda3/envs/torch112cu113/lib/python3.8/site-packages/torch/include",
-                "/home/stanley/miniconda3/envs/torch112cu113/lib/python3.8/site-packages/torch/include/torch/csrc/api/include"
+                "~/miniconda3/envs/torch241cuda121/include/python3.11",
+                "~/miniconda3/envs/torch241cuda121/lib/python3.11/site-packages/torch/include",
+                "~/miniconda3/envs/torch241cuda121/lib/python3.11/site-packages/torch/include/torch/csrc/api/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
-            // "compilerPath": "gcc",
-            // "compilerPath": "/home/stanley/miniconda3/envs/torch112cu113/bin/gcc",
+            "compilerPath": "~/miniconda3/envs/torch241cuda121/bin/gcc",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-x64"
