@@ -282,8 +282,3 @@ at::Tensor trilinear_backward_cu(
 
     return grad_features;
 }
-
-// PYBIND11_MODULE(TORCH_EXTENSION_NAME, m){
-//     m.def("trilinear_interpolation_forward", &trilinear_forward_cu); 
-//     m.def("trilinear_interpolation_backward", &trilinear_backward_cu);
-// }

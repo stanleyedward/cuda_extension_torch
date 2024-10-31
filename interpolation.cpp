@@ -27,5 +27,4 @@ torch::Tensor trilinear_interpolation_backward(
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m){
     m.def("trilinear_interpolation_forward", &trilinear_interpolation_forward); 
     m.def("trilinear_interpolation_backward", &trilinear_interpolation_backward);
-    // m.def("python_function_name", cpp_function_name)
 }
